@@ -1,0 +1,22 @@
+<image class="logo" src="/images/logo.png"></image>
+<view class="input-group">
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_tel.png"></image>
+		<input type="text" placeholder="请输入手机号或用户名"/>
+	</view>
+	<radio-group class="radio-group" bindchange="radioChange">
+	 <label class="radio" wx:for="{{items}}" wx:key="unique">
+	 <radio value="{{item.name}}" color='#D7302E' checked="{{item.checked}}"/>{{item.value}}
+	 </label>
+	</radio-group>
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_pwd.png"></image>
+		<input type="{{encry?'password':'text'}}" placeholder="请输入密码" />
+		<image bindtap='changeShow' class="icon_eye" src="/images/{{encry?'icon_eye_close.png':'icon_eye.png'}}"></image>
+	</view>
+</view>
+<view class="btn hover">登录</view>
+<view class="register-forget">
+	<view bindtap='register' class="register">立即注册</view>
+	<view bindtap='forget'  class="forget">忘记密码</view>
+</view>

@@ -1,0 +1,28 @@
+page {
+	padding: 20rpx;
+	width: auto;
+	font-size: 30rpx;
+	background: #fff;
+}
+.row-s{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+.row-b{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.c{
+	color: #D7302E;
+}
+.center{
+	text-align: center;
+}
+.hover:hover{
+	opacity: 0.8;
+}
+.relative{
+	position: relative;
+}
