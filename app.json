@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/register/register",  
     "pages/login/login", 
     "pages/forget/forget",   
+    "pages/register/register",  
     "pages/index/index"
   ],
   "window": {

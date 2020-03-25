@@ -8,16 +8,23 @@ Page({
 	 */
 	data: {
 		items: [{
-			name: 'personage',
+			name: '1',
 			value: '个人',
 			checked: true
 		}, {
-			name: 'organization',
+			name: '3',
 			value: '组织'
 		}],
 		codeSended: false,
 		time: '获取验证码',
-		encry: true
+		encry: true,
+		formItem: {
+			user_type: 1,
+			mobile: '',
+			sms_cod: '',
+			password: '',
+			repassword: ''
+		}
 	},
 
 	/**
@@ -26,32 +33,79 @@ Page({
 	onLoad: function(options) {
 		// console.log(request)
 	},
-	changeShow() {
-		this.setData({
-			encry: !this.data.encry
+	// 注册
+	register() {
+		let formItem = this.data.formItem
+		if (!formItem.mobile.trim()) {
+			wx.showToast({
+				title: '请输入手机号或用户名',
+				icon: 'none'
+			});
+			return
+		} else if (!formItem.sms_cod.trim()) {
+			wx.showToast({
+				title: '请输入验证码',
+				icon: 'none'
+			});
+			return
+		} else if (!formItem.password.trim()) {
+			wx.showToast({
+				title: '请输入密码',
+				icon: 'none'
+			});
+			return
+		}else if (!formItem.repassword.trim()) {
+			wx.showToast({
+				title: '请再次输入密码',
+				icon: 'none'
+			});
+			return
+		} else if (formItem.password.trim() != formItem.repassword.trim()) {
+			wx.showToast({
+				title: '输入密码不一致',
+				icon: 'none'
+			});
+			return
+		}
+		request({
+			url: '/api/join',
+			data: {
+				...formItem
+			}
+		}).then(res => {
+			if (res.data.code == 1) {
+				wx.navigateTo({
+					url: `/pages/login/login`
+				})
+			}
+			wx.showToast({
+				icon: 'none',
+				title: res.data.msg
+			})
 		})
 	},
+
 	// 倒计时
 	startCountDown() {
 		this.setData({
 			codeSended: true
 		})
 		var times = 120
-		const intval = setInterval(() => {
+		let intval = setInterval(() => {
 			this.setData({
 				time: times-- + '秒后重新发送'
 			})
-			if (this.data.time === 0) {
+			if (this.data.time == '1秒后重新发送') {
 				this.setData({
 					codeSended: false,
-					time: '重新发送'
+					time: '获取验证码'
 				})
 				clearInterval(intval)
 			}
 		}, 1000)
 	},
 
-	// 注册
+	// ·验证码
 	sendSms() {
 		request({
 			url: '/api/sendSms?mobile=18768871893',
@@ -66,22 +120,37 @@ Page({
 		})
 	},
 
-	// 注册
-	register() {
-		request({
-			url: '/api/join',
-			data: {
-				user_type: 1, //个人=1/组织=3
-				mobile: '18768871893',
-				sms_cod: '5670',
-				password: '123456',
-				repassword: '123456'
-			}
-		}).then(res => {})
+
+	bmobile(e) {
+		this.setData({
+			'formItem.mobile': e.detail.value
+		})
+	},
+	bsms_cod(e) {
+		this.setData({
+			'formItem.sms_cod': e.detail.value
+		})
+	},
+	bpassword(e) {
+		this.setData({
+			'formItem.password': e.detail.value
+		})
+	},
+	bpasswordre(e) {
+		this.setData({
+			'formItem.repassword': e.detail.value
+		})
+	},
+	changeShow() {
+		this.setData({
+			encry: !this.data.encry
+		})
 	},
 
 	radioChange: function(e) {
-		console.log('radio发生change事件，携带value值为：', e.detail.value)
+		this.setData({
+			'formItem.user_type': e.detail.value
+		})
 	},
 
 	/**

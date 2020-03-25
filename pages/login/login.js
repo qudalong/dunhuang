@@ -1,4 +1,6 @@
-// pages/login/login.js
+import {
+	request
+} from '../../utils/request.js'
 Page({
 
 	/**
@@ -6,14 +8,19 @@ Page({
 	 */
 	data: {
 		items: [{
-			name: 'personage',
+			name: '0',
 			value: '个人',
 			checked: true
 		}, {
-			name: 'organization',
+			name: '1',
 			value: '组织'
 		}],
-		encry:true
+		encry: true,
+		formItem: {
+			mobile: '',
+			password: '',
+			user_identity: 0
+		}
 	},
 
 	/**
@@ -22,9 +29,55 @@ Page({
 	onLoad: function(options) {
 
 	},
-	changeShow(){
+	// 登录
+	login() {
+		let formItem = this.data.formItem
+		if (!formItem.mobile.trim()) {
+			wx.showToast({
+				title: '请输入手机号或用户名',
+				icon: 'none'
+			});
+			return
+		} else if (!formItem.password.trim()) {
+			wx.showToast({
+				title: '请输入密码',
+				icon: 'none'
+			});
+			return
+		}
+		request({
+			url: '/api/company',
+			data: {
+				...formItem
+			}
+		}).then(res => {
+			if (res.data.code == 1) {
+				wx.navigateTo({
+					url: `/pages/index/index`
+				})
+			} else {
+				wx.showToast({
+					icon: 'none',
+					title: res.data.msg
+				})
+			}
+		})
+	},
+
+	bmobile(e) {
 		this.setData({
-			encry:!this.data.encry
+			'formItem.mobile': e.detail.value
+		})
+	},
+	bpassword(e) {
+		this.setData({
+			'formItem.password': e.detail.value
+		})
+	},
+
+	changeShow() {
+		this.setData({
+			encry: !this.data.encry
 		})
 	},
 	register() {
@@ -38,7 +91,9 @@ Page({
 		});
 	},
 	radioChange: function(e) {
-		console.log('radio发生change事件，携带value值为：', e.detail.value)
+		this.setData({
+			'formItem.user_identity': e.detail.value
+		})
 	},
 
 	/**

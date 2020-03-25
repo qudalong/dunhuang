@@ -16,7 +16,8 @@ function _request(url, resolve, reject, data = {}, method = 'POST') {
     url: host + url,
     // url: url,
     header: {
-      "content-type": "application/json"
+      // "content-type": "application/json"
+      'Content-Type': 'application/x-www-form-urlencoded'
     },
     data: data,
     method: method,
