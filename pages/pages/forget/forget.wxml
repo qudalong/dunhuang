@@ -1,0 +1,27 @@
+<view class="input-group">
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_tel.png"></image>
+		<input bindinput='bmobile' value="{{formItem.mobile}}" type="text" placeholder="请输入手机号或用户名" />
+	</view>
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_tel.png"></image>
+		<input bindinput='bsms_cod' value="{{formItem.sms_cod}}" type="text" placeholder="请输入验证码" />
+		<view bindtap="{{!codeSended?'sendSms':''}}" class="getCode hover {{!codeSended?'c':''}}">{{time}}</view>
+	</view>
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_pwd.png"></image>
+		<input wx:if="{{encry}}" bindinput='bpassword' value="{{formItem.password}}" type="password" placeholder="请输入新密码" />
+		<input wx:if="{{!encry}}" bindinput='bpassword' value="{{formItem.password}}" type="text" placeholder="请输入新密码" />
+		<image bindtap='changeShow' class="icon_eye" src="/images/{{encry?'icon_eye_close.png':'icon_eye.png'}}"></image>
+	</view>
+	<view class="input relative">
+		<image class="l-icon" src="/images/icon_pwd.png"></image>
+		<input wx:if="{{encry2}}" bindinput='bpasswordre' value="{{formItem.repassword}}" type="password" placeholder="请确认新密码" />
+		<input wx:if="{{!encry2}}" bindinput='bpasswordre' value="{{formItem.repassword}}" type="text" placeholder="请确认新密码" />
+		<image bindtap='changeShow2' class="icon_eye" src="/images/{{encry2?'icon_eye_close.png':'icon_eye.png'}}"></image>
+	</view>
+</view>
+<view bindtap='resetpwd' class="btn hover">确认</view>
+<view class="tip">
+	敦煌市新时代文明实践中心主办
+</view>
